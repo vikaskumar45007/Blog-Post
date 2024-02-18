@@ -1,0 +1,102 @@
+{% include "header.html" %}
+{% from 'bootstrap5/form.html' import render_form %}
+
+<!-- Page Header-->
+<header class="masthead" style="background-image: url('{{post.img_url}}')">
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="post-heading">
+          <h1>{{ post.title }}</h1>
+          <h2 class="subheading">{{ post.subtitle }}</h2>
+          <span class="meta">Posted by
+            <a href="#">{{ post.author }}</a>
+            on {{ post.date }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Post Content -->
+<article>
+  <div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        {{ post.body|safe }}
+      </div>
+
+
+
+
+
+
+
+
+
+      <div class="row d-flex justify-content-center">
+        <div class="col-md-8 col-lg-6">
+          <div class="card shadow-0 border" style="background-color: #f0f2f5;">
+            <div class="card-body p-4">
+              <div class="form-outline mb-4">
+                {{ render_form(form) }}
+              </div>
+
+              {% for comment,users in comments %}
+
+              <!-- <div class="container">
+                <div class="row">
+                  <div class="col-2">
+                    <p style="margin: 0px;" > 
+                      <img src="{{ avatars.gravatar(current_user.mail,default='https://th.bing.com/th/id/OIP.n7XX9hB8vTc273pfQePUfAHaHa?w=172&h=180&c=7&r=0&o=5&pid=1.7') }}" alt="Avatar" width="40" height="40" class="avatar"> 
+                      {{ users.name }}</p>
+                  </div>
+                  <div class="col-10">
+                    <p style="font-size: small;text-align: leftt; margin: 0px;" > {{comment.comment}}   </p>
+                  </div>
+                </div> -->
+
+              <div class="card container">
+                <div class="card-body row justify-content-center">
+                <div class="col-sm-3 col-xs-12"> 
+                  <p  style="font-size: small;text-align: left; margin: 0px;" > 
+                    <img src="{{ avatars.gravatar(current_user.mail,default='https://th.bing.com/th/id/OIP.n7XX9hB8vTc273pfQePUfAHaHa?w=172&h=180&c=7&r=0&o=5&pid=1.7') }}" alt="Avatar" width="40" height="40" class="avatar"> 
+                    <br>{{ users.name }}</p>
+                </div>
+                  <div class="col-sm-9 col-xs-12"> 
+                    <p style="margin: 0px;" > {{comment.comment}}   </p> 
+                  </div>
+                  
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+      <div class="d-flex justify-content-end mb-4">
+        <!-- TODO: Editing posts-->
+
+
+        {% if current_user.is_authenticated and current_user.id == post.author_id %}
+        <a class="btn btn-primary float-right" href="{{url_for('edit_post',post_id = post.id)}}">Edit Post</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  </div>
+</article>
+
+{% include "footer.html" %}
